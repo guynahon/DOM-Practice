@@ -1,9 +1,11 @@
 const time = document.getElementById("time");
 let holeHit = false;
+
 function timer() {
     let i = parseInt(time.innerText);
     myTimer();
     let myInterval = setInterval(myTimer, 1000);
+
     function myTimer() {
         i--;
         if (i === 0) {
@@ -17,6 +19,7 @@ function timer() {
 const field = document.getElementById("lawn");
 const score = document.getElementById("score");
 let scoreInt;
+
 function startGame() {
     score.innerText = "0";
     scoreInt = 0;
@@ -34,7 +37,7 @@ function midGame() {
     for (let i = 0; i < holes.length; i++) {
         if (i === number) {
             holes[i].className = "hole up";
-            setTimeout(makeSad,800, holes[i]);
+            setTimeout(makeSad, 800, holes[i]);
         } else {
             holes[i].className = "hole";
         }
