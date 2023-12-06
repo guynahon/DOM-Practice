@@ -160,7 +160,8 @@ function renderList() {
         document.addEventListener("click", (event) => {
             if (event.target.className !== "editing" &&
                 line.classList.contains("editing") &&
-                !edit.contains(event.target)) {
+                !edit.contains(event.target) &&
+                edit.value.trim() !== "") {
 
                 item.title = edit.value;
                 editItem(item.id, item.title);
@@ -172,7 +173,7 @@ function renderList() {
 
         // an event listener the listens to the edit element and when pressing Enter confirms the change.
         edit.addEventListener("keydown",(event) => {
-            if (event.key === "Enter") {
+            if (event.key === "Enter" && edit.value.trim() !== "") {
                 item.title = edit.value;
                 editItem(item.id, item.title);
                 line.removeAttribute("class");
