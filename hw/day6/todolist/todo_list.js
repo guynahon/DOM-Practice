@@ -77,3 +77,13 @@ function activeLength() {
     return counter;
     //lengthElement.innerText = todolist.length +" tasks left";
 }
+
+
+function fillerDone() {
+    return todolist.filter(item => item.done === true);
+}
+
+function fillerNotDone() {
+    return todolist.filter(item => item.done === false);
+}
+

@@ -5,14 +5,6 @@ const clearButtonElement = document.getElementById("clear-done");
 const lengthElement = document.getElementById("length");
 const filtersElement = document.getElementById("filters");
 const toggleAllElement = document.getElementById("toggle-all");
-const body = document.getElementsByTagName("body");
-
-function isDOM(Obj) {
-
-    // Function that checks whether
-    // object is of type Element
-    return Obj instanceof Element;
-}
 
 
 // event listener for the input Element that allows you to add tasks to the list.
@@ -41,6 +33,38 @@ toggleAllElement.addEventListener("change", () => {
     renderList();
     updateActiveLength();
 });
+
+
+filtersElement.addEventListener("click", (event) => {
+    const target = event.target;
+    const selectedElement = document.getElementsByClassName("selected")[0];
+    selectedElement.removeAttribute("class");
+    target.setAttribute("class", "selected");
+    if (target.innerHTML === "All") {
+        for (let li of listElement.children) {
+            li.classList.remove("hidden");
+        }
+    } else if (target.innerHTML === "Active") {
+        for (let li of listElement.children) {
+            const checkbox = li.children[0].getElementsByTagName('input')[0]
+            if (checkbox.checked) {
+                li.classList.add("hidden");
+            } else {
+                li.classList.remove("hidden");
+            }
+        }
+    } else if (target.innerHTML === "Completed") {
+        for (let li of listElement.children) {
+            const checkbox = li.children[0].getElementsByTagName('input')[0]
+            if (checkbox.checked) {
+                li.classList.remove("hidden");
+            } else {
+                li.classList.add("hidden");
+            }
+        }
+    }
+});
+
 
 
 // when this function is called it updates the list to the current state.
@@ -74,6 +98,11 @@ function renderList() {
         doneCheckBox.addEventListener("change", function() {
             toggleDone(item.id);
             updateActiveLength();
+            if (doneCheckBox.checked === true) {
+                line.setAttribute("class", "completed");
+            } else {
+                line.classList.remove("completed");
+            }
         });
 
         // keeps the checkbox in the correct status when rendering the list

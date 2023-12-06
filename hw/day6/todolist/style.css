@@ -179,25 +179,38 @@ body {
 .todo-list li .toggle {
     text-align: center;
     width: 40px;
-    /* auto, since non-WebKit browsers doesn't support input styling */
-    height: auto;
+    height: 40px;
     position: absolute;
     top: 0;
     bottom: 0;
     margin: auto 0;
     border: none; /* Mobile Safari */
-
+    -webkit-appearance: none; /* Remove default styles in WebKit browsers */
+    appearance: none; /* Remove default styles in other browsers */
 }
 
-
 .todo-list li .toggle + label {
-    /*
-        Firefox requires `#` to be escaped - https://bugzilla.mozilla.org/show_bug.cgi?id=922433
-        IE and Edge requires *everything* to be escaped to render, so we do that instead of just the `#` - https://developer.microsoft.com/en-us/microsoft-edge/platform/issues/7157459/
-    */
-    background-image: url('data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20width%3D%2240%22%20height%3D%2240%22%20viewBox%3D%22-10%20-18%20100%20135%22%3E%3Ccircle%20cx%3D%2250%22%20cy%3D%2250%22%20r%3D%2250%22%20fill%3D%22none%22%20stroke%3D%22%23ededed%22%20stroke-width%3D%223%22/%3E%3C/svg%3E');
-    background-repeat: no-repeat;
-    background-position: center left;
+    position: relative;
+}
+
+.todo-list li .toggle::before {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    border: 1px solid #d8d8d8; /* Border color for the circular shape */
+    margin: 7px auto; /* Adjust the margin to center the circular shape */
+}
+
+.todo-list li .toggle:checked::before {
+    background-color: #ffffff; /* Change the background color when the checkbox is checked */
+    border: 1px solid #d8d8d8; /* Border color for the circular shape */
+    content: '\2713'; /* Unicode check mark character */
+    font-size: 20px; /* Adjust the font size of the check mark */
+    color: #33d95b; /* Set the color of the check mark */
+    text-align: center;
+    line-height: 26px;
 }
 
 .todo-list li .toggle:checked + label {
