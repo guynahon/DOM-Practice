@@ -180,7 +180,7 @@ function renderList() {
             }
         });
 
-
+        // changes the lines text to the task title
         label.innerText = item.title;
 
         // building the <li> tree
@@ -193,6 +193,8 @@ function renderList() {
     });
 }
 
+
+// updates the length element to the active tasks length
 function updateActiveLength() {
     lengthElement.innerText = activeLength() +" tasks left";
 }

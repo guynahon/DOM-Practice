@@ -66,7 +66,7 @@ function clearCompleted() {
     }
 }
 
-// a function the updates the list length
+// a function the updates the active tasks length
 function activeLength() {
     let counter = 0;
     todolist.forEach((task) => {
@@ -75,10 +75,10 @@ function activeLength() {
         }
     })
     return counter;
-    //lengthElement.innerText = todolist.length +" tasks left";
 }
 
 
+// counter of all the tasks that are done
 function filterDoneLength() {
     return todolist.filter(item => item.done === true).length;
 }
