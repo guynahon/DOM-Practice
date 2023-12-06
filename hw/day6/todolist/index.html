@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<section class="todoapp">
+    <header class="header">
+        <h1>todos</h1>
+        <input id="new-todo" class="new-todo" placeholder="What needs to be done?" autofocus>
+    </header>
+    <section id="main" class="main" style="display: none;">
+        <input id="toggle-all" class="toggle-all" type="checkbox">
+        <label for="toggle-all">Mark all as complete</label>
+        <ul id="todo-list" class="todo-list"></ul>
+    </section>
+    <footer id="footer" class="footer" style="display: none;">
+        <span class="todo-count" id="length"><strong>0</strong> tasks left</span>
+        <span class="todo-count"></span>
+        <ul id="filters" class="filters">
+            <li>
+                <a href="#/" class="selected">All</a>
+            </li>
+            <li>
+                <a href="#/active">Active</a>
+            </li>
+            <li>
+                <a href="#/completed">Completed</a>
+            </li>
+        </ul>
+        <button id="clear-done" class="clear-completed">Clear completed</button>
+    </footer>
+</section>
+<script src="todo_list.js"></script>
+<script src="todo_ui.js"></script>
+</body>
+</html>
