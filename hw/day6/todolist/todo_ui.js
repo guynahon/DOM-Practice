@@ -1,11 +1,10 @@
 // creating the static DOM elements variables.
 const inputElement = document.getElementById("new-todo");
 const listElement = document.getElementById("todo-list");
-const clearButtonElement = document.getElementById("clear-done");
 const lengthElement = document.getElementById("length");
 const filtersElement = document.getElementById("filters");
 const toggleAllElement = document.getElementById("toggle-all");
-
+const footerElement = document.getElementById("footer");
 
 // event listener for the input Element that allows you to add tasks to the list.
 inputElement.addEventListener('keydown', (event) => {
@@ -18,13 +17,6 @@ inputElement.addEventListener('keydown', (event) => {
     }
 });
 
-// event listener for the clear button
-clearButtonElement.addEventListener("click", function() {
-    clearCompleted();
-    renderList();
-    updateActiveLength();
-});
-
 // toggle all - marks or un marks all the lines checkboxes
 toggleAllElement.addEventListener("change", () => {
     todolist.forEach((task) => {
@@ -35,11 +27,13 @@ toggleAllElement.addEventListener("change", () => {
 });
 
 
+// this event listener is filtering the list by the ALL/ACTIVE/COMPLETED values
 filtersElement.addEventListener("click", (event) => {
     const target = event.target;
     const selectedElement = document.getElementsByClassName("selected")[0];
     selectedElement.removeAttribute("class");
     target.setAttribute("class", "selected");
+
     if (target.innerHTML === "All") {
         for (let li of listElement.children) {
             li.classList.remove("hidden");
@@ -63,23 +57,48 @@ filtersElement.addEventListener("click", (event) => {
             }
         }
     }
+    renderList()
 });
 
 
+// clear button creation
+const clearCompletedButton = document.createElement("button");
+clearCompletedButton.setAttribute("id", "clear-done");
+clearCompletedButton.setAttribute("class", "clear-completed");
+clearCompletedButton.innerHTML = "Clear completed";
+
+
+// clear completed button event listener - clears all completed tasks
+clearCompletedButton.addEventListener("click", function() {
+    clearCompleted();
+    renderList();
+    updateActiveLength();
+});
 
 // when this function is called it updates the list to the current state.
 function renderList() {
     //init the input bar to empty
     listElement.innerHTML = '';
 
-
     // if the to do length is less than 1 do not show main+footer
     if (todolist.length > 0) {
         document.getElementById("main").removeAttribute("style");
-        document.getElementById("footer").removeAttribute("style");
+        footerElement.removeAttribute("style");
     } else {
         document.getElementById("main").setAttribute("style", "display: none;");
-        document.getElementById("footer").setAttribute("style", "display: none;");
+        footerElement.setAttribute("style", "display: none;");
+    }
+
+
+    //clear-completed
+    // remove the existing clear completed button if exists
+    if (footerElement.contains(clearCompletedButton)) {
+        footerElement.removeChild(clearCompletedButton);
+    }
+
+    // check if the button should be previewed
+    if (filterDoneLength() >= 1) {
+        footerElement.appendChild(clearCompletedButton);
     }
 
 
@@ -103,6 +122,7 @@ function renderList() {
             } else {
                 line.classList.remove("completed");
             }
+            renderList();
         });
 
         // keeps the checkbox in the correct status when rendering the list

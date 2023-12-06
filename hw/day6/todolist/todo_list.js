@@ -79,11 +79,7 @@ function activeLength() {
 }
 
 
-function fillerDone() {
-    return todolist.filter(item => item.done === true);
-}
-
-function fillerNotDone() {
-    return todolist.filter(item => item.done === false);
+function filterDoneLength() {
+    return todolist.filter(item => item.done === true).length;
 }
 
