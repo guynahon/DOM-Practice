@@ -17,7 +17,6 @@ function addItem(title) {
 function removeItem(itemId) {
     const index = getIndex(itemId);
     if (index === -1) {
-        //console.log(`can not removeItem - item id ${itemId} do not exist!`);
         return;
     }
     console.log(index);
@@ -29,7 +28,6 @@ function removeItem(itemId) {
 function toggleDone(itemId) {
     const index = getIndex(itemId);
     if (index === -1) {
-        //console.log(`can not toggleDone - item id ${itemId} do not exist!`);
         return;
     }
     todolist[index].done = !todolist[index].done;
@@ -38,7 +36,6 @@ function toggleDone(itemId) {
 function editItem(itemId, newTitle) {
     const index = getIndex(itemId);
     if (index === -1) {
-        //console.log(`can not editItem - item id ${itemId} do not exist!`);
         return;
     }
     todolist[index].title = newTitle;
@@ -58,6 +55,7 @@ function getIndex(itemId) {
     return todolist.findIndex((item) => itemId === item.id);
 }
 
+// clears the tasks that their done value is true
 function clearCompleted() {
     for (let i = todolist.length - 1; i >= 0; i--) {
         if (todolist[i].done) {

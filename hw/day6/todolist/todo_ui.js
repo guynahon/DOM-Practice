@@ -8,7 +8,7 @@ const footerElement = document.getElementById("footer");
 
 // event listener for the input Element that allows you to add tasks to the list.
 inputElement.addEventListener('keydown', (event) => {
-    if (event.key === "Enter") {
+    if (event.key === "Enter" && inputElement.value.trim() !== "") {
         const title = inputElement.value;
         addItem(title);
         renderList();
@@ -17,7 +17,7 @@ inputElement.addEventListener('keydown', (event) => {
     }
 });
 
-// toggle all - marks or un marks all the lines checkboxes
+// toggle all - marks or unmarks all the lines checkboxes
 toggleAllElement.addEventListener("change", () => {
     todolist.forEach((task) => {
         task.done = toggleAllElement.checked;
@@ -27,36 +27,12 @@ toggleAllElement.addEventListener("change", () => {
 });
 
 
-// this event listener is filtering the list by the ALL/ACTIVE/COMPLETED values
+// filtering the list by the ALL/ACTIVE/COMPLETED values
 filtersElement.addEventListener("click", (event) => {
     const target = event.target;
     const selectedElement = document.getElementsByClassName("selected")[0];
     selectedElement.removeAttribute("class");
     target.setAttribute("class", "selected");
-
-    if (target.innerHTML === "All") {
-        for (let li of listElement.children) {
-            li.classList.remove("hidden");
-        }
-    } else if (target.innerHTML === "Active") {
-        for (let li of listElement.children) {
-            const checkbox = li.children[0].getElementsByTagName('input')[0]
-            if (checkbox.checked) {
-                li.classList.add("hidden");
-            } else {
-                li.classList.remove("hidden");
-            }
-        }
-    } else if (target.innerHTML === "Completed") {
-        for (let li of listElement.children) {
-            const checkbox = li.children[0].getElementsByTagName('input')[0]
-            if (checkbox.checked) {
-                li.classList.remove("hidden");
-            } else {
-                li.classList.add("hidden");
-            }
-        }
-    }
     renderList()
 });
 
@@ -80,7 +56,7 @@ function renderList() {
     //init the input bar to empty
     listElement.innerHTML = '';
 
-    // if the to do length is less than 1 do not show main+footer
+    // if the to-do list length is less than 1 do not show #main and #footer
     if (todolist.length > 0) {
         document.getElementById("main").removeAttribute("style");
         footerElement.removeAttribute("style");
@@ -101,10 +77,14 @@ function renderList() {
         footerElement.appendChild(clearCompletedButton);
     }
 
+    // getting the selected class element (to later check if the line is hidden ot not)
+    const selected = document.getElementsByClassName("selected")[0];
 
+    // visiting each task in the to-do list
     todolist.forEach(function(item) {
         // creating <li> tag
         const line = document.createElement("li");
+
         // creating <div> tag
         const div = document.createElement("div");
         div.setAttribute("class", "view");
@@ -117,16 +97,17 @@ function renderList() {
         doneCheckBox.addEventListener("change", function() {
             toggleDone(item.id);
             updateActiveLength();
-            if (doneCheckBox.checked === true) {
-                line.setAttribute("class", "completed");
-            } else {
-                line.classList.remove("completed");
-            }
             renderList();
         });
 
         // keeps the checkbox in the correct status when rendering the list
         doneCheckBox.checked = item.done;
+
+        // checks the value that we got at the filtersElement EventListener and hide the needed lines
+        hideLines(doneCheckBox, selected, line);
+
+        // update the class on each line to completed if the line is checked
+        addCompleted(doneCheckBox, line);
 
         // creating destroy button <button> - remove the item from the list when pushed
         const destroy = document.createElement("button");
@@ -138,23 +119,18 @@ function renderList() {
             renderList();
         });
 
-
-
         // creating the label tag <label>
         const label = document.createElement("label");
-
 
         // creating the edit input <input>
         const edit = document.createElement("input");
         edit.setAttribute("class", "edit");
-
 
         // event listener that allows the user to edit an item from the list
         line.addEventListener("dblclick", () => {
             line.setAttribute("class", "editing");
             edit.setAttribute("value", item.title);
         });
-
 
         // an event listener the listens to the document and whenever pressing outside the input it submits the changes.
         document.addEventListener("click", (event) => {
@@ -169,7 +145,6 @@ function renderList() {
                 renderList();
             }
         });
-
 
         // an event listener the listens to the edit element and when pressing Enter confirms the change.
         edit.addEventListener("keydown",(event) => {
@@ -194,8 +169,29 @@ function renderList() {
     });
 }
 
-
 // updates the length element to the active tasks length
 function updateActiveLength() {
     lengthElement.innerText = activeLength() +" tasks left";
+}
+
+// checks the value that we got at the filtersElement EventListener and hide the needed lines
+function hideLines(doneCheckBox, selected, line) {
+    if (selected.innerHTML === "Active") {
+        if(doneCheckBox.checked){
+            line.classList.add("hidden");
+        }
+    } else if (selected.innerHTML === "Completed") {
+        if (!doneCheckBox.checked) {
+            line.classList.add("hidden");
+        }
+    }
+}
+
+// update the class on each line to completed if the line is checked
+function addCompleted(doneCheckBox, line) {
+    if (doneCheckBox.checked === true) {
+        line.classList.add("completed");
+    } else {
+        line.classList.remove("completed");
+    }
 }
