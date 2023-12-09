@@ -151,8 +151,7 @@ function renderList() {
         // an event listener the listens to the edit element and when pressing Enter confirms the change.
         edit.addEventListener("keydown",(event) => {
             if (event.key === "Enter" && edit.value.trim() !== "") {
-                item.title = edit.value;
-                editItem(item.id, item.title);
+                editItem(item.id, edit.value);
                 line.removeAttribute("class");
                 renderList();
             }
