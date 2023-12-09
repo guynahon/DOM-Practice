@@ -141,8 +141,7 @@ function renderList() {
                 !edit.contains(event.target) &&
                 edit.value.trim() !== "") {
 
-                item.title = edit.value;
-                editItem(item.id, item.title);
+                editItem(item.id, edit.value);
                 line.removeAttribute("class");
                 renderList();
             }
