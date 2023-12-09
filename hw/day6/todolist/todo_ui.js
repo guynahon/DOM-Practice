@@ -30,9 +30,11 @@ toggleAllElement.addEventListener("change", () => {
 // filtering the list by the ALL/ACTIVE/COMPLETED values
 filtersElement.addEventListener("click", (event) => {
     const target = event.target;
-    const selectedElement = document.getElementsByClassName("selected")[0];
-    selectedElement.removeAttribute("class");
-    target.setAttribute("class", "selected");
+    if (target.innerHTML === "All" || target.innerHTML === "Active" || target.innerHTML === "Completed") {
+        const selectedElement = document.getElementsByClassName("selected")[0];
+        selectedElement.removeAttribute("class");
+        target.setAttribute("class", "selected");
+    }
     renderList()
 });
 
