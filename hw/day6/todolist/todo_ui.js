@@ -34,8 +34,8 @@ filtersElement.addEventListener("click", (event) => {
         const selectedElement = document.getElementsByClassName("selected")[0];
         selectedElement.removeAttribute("class");
         target.setAttribute("class", "selected");
+        renderList();
     }
-    renderList()
 });
 
 
